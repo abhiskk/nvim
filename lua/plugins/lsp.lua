@@ -76,7 +76,7 @@ return {
                   enabled = false,
                 },
                 pyflakes = {
-                  enabled = false,
+                  enabled = true,
                 },
                 pylint = {
                   enabled = false,
