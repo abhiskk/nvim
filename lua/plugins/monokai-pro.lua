@@ -1,0 +1,22 @@
+return {}
+-- return {
+--   "loctvl842/monokai-pro.nvim",
+--   lazy = false,
+--   priority = 1000,
+--   config = function()
+--     require("monokai-pro").setup({
+--       transparent_background = false,
+--       terminal_colors = true,
+--       devicons = true,
+--       styles = {
+--         comment = { italic = true },
+--         keyword = { italic = true },
+--         function_name = { bold = true },
+--         -- add more style customizations if needed
+--       },
+--       filter = "pro", -- choose from 'classic', 'octagon', 'pro', 'machine', 'ristretto', 'spectrum'
+--     })
+--
+--     vim.cmd("colorscheme monokai-pro")
+--   end,
+-- }
