@@ -29,6 +29,7 @@ return {
       --   -- `arc lint` can take a bit to run.
       --   timeout_ms = 2500,
       -- },
+      --
       servers = {
         pylsp = {
           cmd = { "pylsp" },
@@ -76,7 +77,7 @@ return {
                   enabled = false,
                 },
                 pyflakes = {
-                  enabled = true,
+                  enabled = false,
                 },
                 pylint = {
                   enabled = false,

@@ -5,6 +5,8 @@ vim.opt.wrap = true
 vim.opt.list = false
 vim.opt.linespace = 10
 
+vim.lsp.handlers["textDocument/documentHighlight"] = function() end
+
 local vim = vim
 local api = vim.api
 
@@ -33,6 +35,8 @@ api.nvim_set_hl(0, "Search", { bg = "#A0522D" })
 
 -- api.nvim_command([[colorscheme kanagawa-wave]])
 api.nvim_command([[colorscheme gruvbox]])
+api.nvim_set_hl(0, "NeoTreeNormal", { bg = "#000000" })
+api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "#000000" })
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
   pattern = { "*.txt", "*.md", "*.py" }, -- Add the file patterns you want to disable Treesitter for

@@ -66,7 +66,16 @@ return {
     "lewis6991/gitsigns.nvim",
     lazy = false,
     config = function()
-      require("gitsigns").setup()
+      require("gitsigns").setup({
+        signs = {
+          add = { hl = "GitSignsAdd", text = "│", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+          change = { hl = "GitSignsChange", text = "│", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
+          delete = { hl = "GitSignsDelete", text = "_", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
+          topdelete = { hl = "GitSignsDelete", text = "‾", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
+          changedelete = { hl = "GitSignsChange", text = "~", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
+          untracked = { hl = "GitSignsAdd", text = "●", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+        },
+      })
     end,
   },
   {
@@ -143,12 +152,83 @@ return {
     },
     config = function()
       require("neo-tree").setup({
+        filesystem = {
+          follow_current_file = true, -- Follow the current file
+          use_libuv_file_watcher = true, -- Use the file watcher
+        },
         window = {
           width = 25, -- Set the default width here
+        },
+        renderers = {
+          directory = {
+            { "indent" },
+            { "icon" },
+            { "current_filter" },
+            {
+              "container",
+              content = {
+                { "name", zindex = 10 },
+                {
+                  "symlink_target",
+                  zindex = 10,
+                  highlight = "NeoTreeSymbolicLinkTarget",
+                },
+                { "clipboard", zindex = 10 },
+                { "diagnostics", errors_only = true, zindex = 20, align = "right" },
+              },
+            },
+          },
+          file = {
+            { "indent" },
+            { "icon" },
+            {
+              "container",
+              content = {
+                {
+                  "name",
+                  zindex = 10,
+                },
+                -- { "git_status", zindex = 20, align = "right" },
+                {
+                  "diagnostics",
+                  zindex = 20,
+                  align = "right",
+                },
+              },
+            },
+          },
         },
       })
     end,
   },
+
+  -- {
+  --   "nvim-neo-tree/neo-tree.nvim",
+  --   branch = "v2.x",
+  --   requires = {
+  --     "nvim-lua/plenary.nvim",
+  --     "kyazdani42/nvim-web-devicons",
+  --     "MunifTanjim/nui.nvim",
+  --   },
+  --   config = function()
+  --     require("neo-tree").setup({
+  --       filesystem = {
+  --         follow_current_file = true, -- Follow the current file
+  --         use_libuv_file_watcher = true, -- Use the file watcher
+  --       },
+  --       window = {
+  --         width = 25, -- Set the default width here
+  --       },
+  --       default_component_configs = {
+  --         git_status = {
+  --           symbols = {
+  --             untracked = "U",
+  --           },
+  --         },
+  --       },
+  --     })
+  --   end,
+  -- },
 }
 
 -- local vim = vim

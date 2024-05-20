@@ -36,6 +36,13 @@ return {
   -- {
   --   "RRethy/vim-illuminate",
   --   config = function(plug, opts)
+  --     under_cursor = false
+  --   end
+  -- },
+
+  -- {
+  --   "RRethy/vim-illuminate",
+  --   config = function(plug, opts)
   --     -- Using Meta/Alt can result in <Esc> being interpreted as Meta/Alt, which
   --     -- makes for odd behaviors when quickly pressing <Esc> sometimes, so
   --     -- disable Meta chords.
