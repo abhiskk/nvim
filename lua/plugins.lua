@@ -28,6 +28,15 @@ return {
     lazy = false,
   },
   {
+    "terrortylor/nvim-comment",
+    lazy = false,
+    config = function()
+      require("nvim_comment").setup({
+        -- Configuration options here
+      })
+    end,
+  },
+  {
     "bkegley/gloombuddy",
     lazy = false,
   },
@@ -73,7 +82,7 @@ return {
           delete = { hl = "GitSignsDelete", text = "_", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
           topdelete = { hl = "GitSignsDelete", text = "‾", numhl = "GitSignsDeleteNr", linehl = "GitSignsDeleteLn" },
           changedelete = { hl = "GitSignsChange", text = "~", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
-          untracked = { hl = "GitSignsAdd", text = "●", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
+          -- untracked = { hl = "GitSignsAdd", text = "●", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
         },
       })
     end,
@@ -201,69 +210,4 @@ return {
       })
     end,
   },
-
-  -- {
-  --   "nvim-neo-tree/neo-tree.nvim",
-  --   branch = "v2.x",
-  --   requires = {
-  --     "nvim-lua/plenary.nvim",
-  --     "kyazdani42/nvim-web-devicons",
-  --     "MunifTanjim/nui.nvim",
-  --   },
-  --   config = function()
-  --     require("neo-tree").setup({
-  --       filesystem = {
-  --         follow_current_file = true, -- Follow the current file
-  --         use_libuv_file_watcher = true, -- Use the file watcher
-  --       },
-  --       window = {
-  --         width = 25, -- Set the default width here
-  --       },
-  --       default_component_configs = {
-  --         git_status = {
-  --           symbols = {
-  --             untracked = "U",
-  --           },
-  --         },
-  --       },
-  --     })
-  --   end,
-  -- },
 }
-
--- local vim = vim
--- local execute = vim.api.nvim_command
--- local fn = vim.fn
--- -- ensure that packer is installed
--- local install_path = fn.stdpath('data')..'/site/pack/packer/opt/packer.nvim'
--- if fn.empty(fn.glob(install_path)) > 0 then
---     execute('!git clone https://github.com/wbthomason/packer.nvim '..install_path)
---     execute 'packadd packer.nvim'
--- end
--- vim.cmd('packadd packer.nvim')
--- local packer = require'packer'
--- local util = require'packer.util'
--- packer.init({
---   package_root = util.join_paths(vim.fn.stdpath('data'), 'site', 'pack')
--- })
--- --- startup and add configure plugins
--- packer.startup(function()
---   local use = use
---   -- use 'neovim/nvim-lspconfig'
---   use 'ggandor/lightspeed.nvim'
---   use 'nvim-treesitter/nvim-treesitter'
---   use 'sheerun/vim-polyglot'
---   use 'tjdevries/colorbuddy.nvim'
---   use 'bkegley/gloombuddy'
---   -- use 'ggandor/leap.nvim'
---   use 'tanvirtin/monokai.nvim'
---   -- use 'gruvbox-community/gruvbox'
---   use {'ojroques/nvim-osc52'}
---   use {
---     'nvim-lualine/lualine.nvim',
---     requires = { 'kyazdani42/nvim-web-devicons', opt = true }
---   }
---   use ({ 'projekt0n/github-nvim-theme' })
---   use 'morhetz/gruvbox'
---   end
--- )

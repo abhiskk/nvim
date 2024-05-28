@@ -44,3 +44,56 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
     vim.cmd("TSBufDisable highlight")
   end,
 })
+
+-- Custom command for Telescope live_grep with configurable folder name
+vim.api.nvim_create_user_command("Fg", function(opts)
+  local folder = opts.args
+  require("telescope.builtin").live_grep({
+    cwd = folder,
+  })
+end, { nargs = 1 })
+
+-- Shortcut for opening ~/scripts/mast_run.sh
+vim.cmd([[command! Vxlf edit ~/scripts/mast_run.sh]])
+
+-- Lint on
+vim.api.nvim_create_user_command("Linton", function()
+  require("lspconfig").pylsp.setup({
+    settings = {
+      pylsp = {
+        plugins = {
+          pyflakes = { enabled = true },
+          pycodestyle = { enabled = false },
+          mccabe = { enabled = true },
+          rope_completion = { enabled = false },
+          pyls_black = { enabled = false },
+          pyls_sort = { enabled = false },
+          autopep8 = { enabled = false },
+          yapf = { enabled = false },
+          pylint = { enabled = false },
+        },
+      },
+    },
+  })
+end, {})
+
+-- Lint off
+vim.api.nvim_create_user_command("Lintoff", function()
+  require("lspconfig").pylsp.setup({
+    settings = {
+      pylsp = {
+        plugins = {
+          pyflakes = { enabled = false },
+          pycodestyle = { enabled = false },
+          mccabe = { enabled = false },
+          rope_completion = { enabled = false },
+          pyls_black = { enabled = false },
+          pyls_sort = { enabled = false },
+          autopep8 = { enabled = false },
+          yapf = { enabled = false },
+          pylint = { enabled = false },
+        },
+      },
+    },
+  })
+end, {})
