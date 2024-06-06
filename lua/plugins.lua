@@ -101,7 +101,7 @@ return {
       scrollbar.setup({
         show = true,
         handle = {
-          text = " ",
+          text = "",
           -- color = colors.bg_highlight,
           color = "#ffd700",
           hide_if_all_visible = false,

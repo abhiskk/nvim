@@ -28,6 +28,10 @@ map("n", "<leader>tb", "<cmd>Telescope buffers<cr>", { noremap = true, silent = 
 -- gitsigns hunk
 map("n", "<leader>gp", ":Gitsigns preview_hunk<cr>", { noremap = true, silent = true })
 
+-- gitsigns navigate hunks
+map("n", "<leader>c", "<cmd>Gitsigns next_hunk<cr>", { noremap = true, silent = true })
+map("n", "<leader>C", "<cmd>Gitsigns prev_hunk<cr>", { noremap = true, silent = true })
+
 -- python lsp server jumpt to definition
 -- map("n", "<C-d>", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
 

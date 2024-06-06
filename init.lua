@@ -34,9 +34,10 @@ api.nvim_command([[nnoremap <silent> <C-y> 5<C-y>]])
 api.nvim_set_hl(0, "Search", { bg = "#A0522D" })
 
 -- api.nvim_command([[colorscheme kanagawa-wave]])
+api.nvim_command([[set background=dark]])
 api.nvim_command([[colorscheme gruvbox]])
-api.nvim_set_hl(0, "NeoTreeNormal", { bg = "#000000" })
-api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "#000000" })
+-- api.nvim_set_hl(0, "NeoTreeNormal", { bg = "#000000" })
+-- api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "#000000" })
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
   pattern = { "*.txt", "*.md", "*.py" }, -- Add the file patterns you want to disable Treesitter for
@@ -97,3 +98,17 @@ vim.api.nvim_create_user_command("Lintoff", function()
     },
   })
 end, {})
+
+-- setup shortcut for deleting buffers in telescope
+require("telescope").setup({
+  defaults = {
+    mappings = {
+      i = {
+        ["<C-d>"] = "delete_buffer", -- Map Ctrl+d to delete buffer in insert mode
+      },
+      n = {
+        ["dd"] = "delete_buffer", -- Map dd to delete buffer in normal mode
+      },
+    },
+  },
+})
