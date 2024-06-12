@@ -36,6 +36,8 @@ api.nvim_set_hl(0, "Search", { bg = "#A0522D" })
 -- api.nvim_command([[colorscheme kanagawa-wave]])
 api.nvim_command([[set background=light]])
 api.nvim_command([[colorscheme gruvbox]])
+api.nvim_set_hl(0, "NeoTreeNormal", { bg = "#A9BA9D" })
+api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "#A9BA9D" })
 -- api.nvim_set_hl(0, "NeoTreeNormal", { bg = "#000000" })
 -- api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "#000000" })
 
