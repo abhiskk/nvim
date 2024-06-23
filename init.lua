@@ -28,7 +28,7 @@ api.nvim_set_hl(0, "Search", { bg = "#A0522D" })
 
 -- Set Gruvbox colorscheme
 vim.o.termguicolors = true
-api.nvim_command([[set background=light]])
+api.nvim_command([[set background=dark]])
 api.nvim_command([[colorscheme gruvbox]])
 
 -- Set NeoTree background
