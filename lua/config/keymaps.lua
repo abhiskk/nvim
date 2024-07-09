@@ -50,3 +50,11 @@ vim.keymap.del({ "n", "i", "v" }, "<A-k>")
 
 vim.api.nvim_set_keymap("n", "s", "<Plug>Lightspeed_s", {})
 vim.api.nvim_set_keymap("n", "S", "<Plug>Lightspeed_S", {})
+
+-- Copy full path of current file to clipboard
+map(
+  "n",
+  "<leader>fp",
+  "<cmd>let @+ = expand('%:p')<CR>",
+  { noremap = true, silent = true, desc = "Copy full path to clipboard" }
+)
