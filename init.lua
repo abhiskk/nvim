@@ -110,3 +110,6 @@ require("telescope").setup({
     },
   },
 })
+
+-- Set clipboard to use OSC52
+vim.opt.clipboard = "unnamedplus"

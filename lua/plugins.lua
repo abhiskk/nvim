@@ -45,10 +45,6 @@ return {
     lazy = false,
   },
   {
-    "ojroques/nvim-osc52",
-    lazy = false,
-  },
-  {
     "nvim-lualine/lualine.nvim",
     dependencies = { "kyazdani42/nvim-web-devicons" },
     config = function()
