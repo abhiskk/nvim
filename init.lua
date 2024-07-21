@@ -44,14 +44,6 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
   end,
 })
 
--- Custom command for Telescope live_grep with configurable folder name
-vim.api.nvim_create_user_command("Fg", function(opts)
-  local folder = opts.args
-  require("telescope.builtin").live_grep({
-    cwd = folder,
-  })
-end, { nargs = 1 })
-
 -- Shortcut for opening ~/scripts/mast_run.sh
 vim.cmd([[command! Vxlf edit ~/scripts/mast_run.sh]])
 
@@ -97,19 +89,62 @@ vim.api.nvim_create_user_command("Lintoff", function()
   })
 end, {})
 
--- setup shortcut for deleting buffers in telescope
-require("telescope").setup({
+local telescope = require("telescope")
+local actions = require("telescope.actions")
+
+local function remove_icons_from_entry(entry)
+  return string.format("%s", entry.value)
+end
+
+telescope.setup({
   defaults = {
+    file_ignore_patterns = {},
+    path_display = { "truncate" },
     mappings = {
       i = {
-        ["<C-d>"] = "delete_buffer", -- Map Ctrl+d to delete buffer in insert mode
+        ["<C-d>"] = actions.delete_buffer,
       },
       n = {
-        ["dd"] = "delete_buffer", -- Map dd to delete buffer in normal mode
+        ["dd"] = actions.delete_buffer,
       },
+    },
+    -- Disable icons
+    prompt_prefix = " ",
+    selection_caret = " ",
+    entry_prefix = "  ",
+    icon_width = 0, -- Set to 0 to completely remove the width reserved for icons
+    file_sorter = require("telescope.sorters").get_fzy_sorter,
+  },
+  pickers = {
+    find_files = {
+      find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+      -- Disable devicons for find_files
+      entry_maker = function(entry)
+        local maker = require("telescope.make_entry").gen_from_file()
+        local item = maker(entry)
+        item.display = remove_icons_from_entry
+        return item
+      end,
+    },
+    buffers = {
+      -- Disable devicons for buffers
+      entry_maker = function(entry)
+        local maker = require("telescope.make_entry").gen_from_buffer()
+        local item = maker(entry)
+        item.display = remove_icons_from_entry
+        return item
+      end,
     },
   },
 })
+
+-- Custom command for Telescope live_grep with configurable folder name
+vim.api.nvim_create_user_command("Fg", function(opts)
+  local folder = opts.args
+  require("telescope.builtin").live_grep({
+    cwd = folder,
+  })
+end, { nargs = 1 })
 
 -- Set clipboard to use OSC52
 vim.opt.clipboard = "unnamedplus"

@@ -46,7 +46,7 @@ return {
   },
   {
     "nvim-lualine/lualine.nvim",
-    dependencies = { "kyazdani42/nvim-web-devicons" },
+    -- dependencies = { "kyazdani42/nvim-web-devicons" },
     config = function()
       require("lualine").setup()
     end,
@@ -152,55 +152,37 @@ return {
     branch = "v2.x",
     requires = {
       "nvim-lua/plenary.nvim",
-      "kyazdani42/nvim-web-devicons",
+      -- "kyazdani42/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
     },
     config = function()
       require("neo-tree").setup({
         filesystem = {
-          follow_current_file = true, -- Follow the current file
-          use_libuv_file_watcher = true, -- Use the file watcher
+          follow_current_file = true,
+          use_libuv_file_watcher = true,
         },
         window = {
-          width = 25, -- Set the default width here
+          width = 25,
+        },
+        -- Add these lines to disable icons
+        default_component_configs = {
+          icon = {
+            folder_closed = "",
+            folder_open = "",
+            folder_empty = "",
+            default = "",
+          },
         },
         renderers = {
-          directory = {
-            { "indent" },
-            { "icon" },
-            { "current_filter" },
-            {
-              "container",
-              content = {
-                { "name", zindex = 10 },
-                {
-                  "symlink_target",
-                  zindex = 10,
-                  highlight = "NeoTreeSymbolicLinkTarget",
-                },
-                { "clipboard", zindex = 10 },
-                { "diagnostics", errors_only = true, zindex = 20, align = "right" },
-              },
-            },
-          },
           file = {
             { "indent" },
-            { "icon" },
-            {
-              "container",
-              content = {
-                {
-                  "name",
-                  zindex = 10,
-                },
-                -- { "git_status", zindex = 20, align = "right" },
-                {
-                  "diagnostics",
-                  zindex = 20,
-                  align = "right",
-                },
-              },
-            },
+            { "name", use_git_status_colors = true },
+            -- Remove the icon component here
+          },
+          directory = {
+            { "indent" },
+            { "name", use_git_status_colors = true },
+            -- Remove the icon component here
           },
         },
       })
