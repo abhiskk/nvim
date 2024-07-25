@@ -29,12 +29,13 @@ api.nvim_set_hl(0, "Search", { bg = "#A0522D" })
 
 -- Set Gruvbox colorscheme
 vim.o.termguicolors = true
-api.nvim_command([[set background=dark]])
+-- api.nvim_command([[set background=light]])
+-- api.nvim_command([[colorscheme catppuccin]])
 api.nvim_command([[colorscheme gruvbox]])
 
 -- Set NeoTree background
-api.nvim_set_hl(0, "NeoTreeNormal", { bg = "#000000" })
-api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "#000000" })
+-- api.nvim_set_hl(0, "NeoTreeNormal", { bg = "#000000" })
+-- api.nvim_set_hl(0, "NeoTreeNormalNC", { bg = "#000000" })
 
 -- Disable Treesitter highlighting for specific file types
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
