@@ -6,10 +6,5 @@ return {
   { "lukas-reineke/indent-blankline", enabled = false },
   { "echasnovski/mini.indentscope", enabled = false },
   { "RRethy/vim-illuminate", enabled = false },
-  -- { "nvimtools/none-ls.nvim", enabled = false }
-  -- { "nvim-treesitter/nvim-treesitter", enabled = false },
-  -- { "nvim-treesitter/nvim-treesitter-textobjects", enabled = false },
-  -- { "nvim-lua/plenary", enabled = false },
-  -- { "nvim-neo-tree/neo-tree"}
-  -- { "", enabled = false }
+  { "folke/which-key.nvim", enabled = false },
 }
