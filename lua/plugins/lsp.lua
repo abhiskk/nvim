@@ -36,9 +36,7 @@ return {
           end,
           settings = {
             python = {
-              -- pythonPath = vim.fn.expand("~/conda-envs/xlformers_multimodal_conda_dev/conda/bin/python"),
               pythonPath = vim.fn.expand("~/conda-envs/xlfcde/conda/bin/python"),
-
               analysis = {
                 autoSearchPaths = true,
                 diagnosticMode = "workspace",
@@ -70,18 +68,17 @@ return {
                 timeout_ms = 5000,
               })
             end, { noremap = true, silent = true, buffer = bufnr, desc = "Format with Black" })
+
+            -- Apply current diagnostics state
+            if vim.g.pyright_diagnostics_active == false then
+              vim.diagnostic.disable(bufnr)
+            end
           end,
         },
       },
     },
     config = function(_, opts)
       local lspconfig = require("lspconfig")
-
-      -- Explicitly disable pylsp
-      lspconfig.pylsp.setup({
-        autostart = false,
-        filetypes = {},
-      })
 
       -- Setup servers
       for server, server_opts in pairs(opts.servers) do
@@ -101,21 +98,10 @@ return {
               return true
             end,
             command = vim.fn.expand("~/conda-envs/xlformers_multimodal_conda_dev/conda/bin/black"),
-            -- command = vim.fn.expand("~/conda-envs/xlfcde/conda/bin/black"),
           }),
         },
         debug = true,
       })
-
-      -- Function for Black formatting
-      _G.format_with_black = function()
-        vim.lsp.buf.format({
-          filter = function(client)
-            return client.name == "null-ls"
-          end,
-          timeout_ms = 5000,
-        })
-      end
 
       -- Function to check active LSP servers and their Python paths
       local function check_lsp_python_path()
@@ -143,6 +129,28 @@ return {
 
       -- Create user commands
       vim.api.nvim_create_user_command("CheckLSP", check_lsp_python_path, {})
+
+      -- Function to toggle Pyright diagnostics
+      _G.toggle_pyright_diagnostics = function(enable)
+        vim.g.pyright_diagnostics_active = enable
+        if enable then
+          vim.diagnostic.enable()
+          for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+            if vim.bo[bufnr].filetype == "python" then
+              vim.diagnostic.enable(bufnr)
+            end
+          end
+          print("Pyright diagnostics enabled")
+        else
+          for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+            if vim.bo[bufnr].filetype == "python" then
+              vim.diagnostic.disable(bufnr)
+            end
+          end
+          vim.diagnostic.reset()
+          print("Pyright diagnostics disabled")
+        end
+      end
     end,
   },
 }

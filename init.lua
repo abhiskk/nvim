@@ -48,47 +48,59 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
 -- Shortcut for opening ~/scripts/mast_run.sh
 vim.cmd([[command! Vxlf edit ~/scripts/mast_run.sh]])
 
--- Lint on
+-- Initialize the global variable for Pyright diagnostics state
+vim.g.pyright_diagnostics_active = true
+
+-- Update these commands at the end of your init.lua file
 vim.api.nvim_create_user_command("Linton", function()
-  require("lspconfig").pylsp.setup({
-    settings = {
-      pylsp = {
-        plugins = {
-          pyflakes = { enabled = true },
-          pycodestyle = { enabled = false },
-          mccabe = { enabled = true },
-          rope_completion = { enabled = false },
-          pyls_black = { enabled = false },
-          pyls_sort = { enabled = false },
-          autopep8 = { enabled = false },
-          yapf = { enabled = false },
-          pylint = { enabled = false },
-        },
-      },
-    },
-  })
+  _G.toggle_pyright_diagnostics(true)
 end, {})
 
--- Lint off
 vim.api.nvim_create_user_command("Lintoff", function()
-  require("lspconfig").pylsp.setup({
-    settings = {
-      pylsp = {
-        plugins = {
-          pyflakes = { enabled = false },
-          pycodestyle = { enabled = false },
-          mccabe = { enabled = false },
-          rope_completion = { enabled = false },
-          pyls_black = { enabled = false },
-          pyls_sort = { enabled = false },
-          autopep8 = { enabled = false },
-          yapf = { enabled = false },
-          pylint = { enabled = false },
-        },
-      },
-    },
-  })
+  _G.toggle_pyright_diagnostics(false)
 end, {})
+
+--
+-- vim.api.nvim_create_user_command("Linton", function()
+--   require("lspconfig").pylsp.setup({
+--     settings = {
+--       pylsp = {
+--         plugins = {
+--           pyflakes = { enabled = true },
+--           pycodestyle = { enabled = false },
+--           mccabe = { enabled = true },
+--           rope_completion = { enabled = false },
+--           pyls_black = { enabled = false },
+--           pyls_sort = { enabled = false },
+--           autopep8 = { enabled = false },
+--           yapf = { enabled = false },
+--           pylint = { enabled = false },
+--         },
+--       },
+--     },
+--   })
+-- end, {})
+--
+-- -- Lint off
+-- vim.api.nvim_create_user_command("Lintoff", function()
+--   require("lspconfig").pylsp.setup({
+--     settings = {
+--       pylsp = {
+--         plugins = {
+--           pyflakes = { enabled = false },
+--           pycodestyle = { enabled = false },
+--           mccabe = { enabled = false },
+--           rope_completion = { enabled = false },
+--           pyls_black = { enabled = false },
+--           pyls_sort = { enabled = false },
+--           autopep8 = { enabled = false },
+--           yapf = { enabled = false },
+--           pylint = { enabled = false },
+--         },
+--       },
+--     },
+--   })
+-- end, {})
 
 -- Function for Black formatting
 local function format_with_black()
