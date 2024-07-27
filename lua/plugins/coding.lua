@@ -35,6 +35,16 @@ return {
         end, { "i", "s" }),
         ["<CR>"] = cmp.mapping.confirm({ select = false }),
       })
+
+      -- Add this formatting option to remove icons
+      opts.formatting = {
+        format = function(entry, vim_item)
+          vim_item.kind = vim_item.kind:gsub("^%s*(.-)%s*$", "%1") -- Trim any whitespace
+          return vim_item
+        end,
+      }
+
+      return opts
     end,
   },
 }

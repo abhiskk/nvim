@@ -1,4 +1,5 @@
-tt.*
+.github
+.tt.*
 .tests
 doc/tags
 debug
@@ -6,3 +7,5 @@ debug
 foo.*
 *.log
 data
+lua/user
+.stylua.toml
