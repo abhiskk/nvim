@@ -90,6 +90,19 @@ vim.api.nvim_create_user_command("Lintoff", function()
   })
 end, {})
 
+-- Function for Black formatting
+local function format_with_black()
+  vim.lsp.buf.format({
+    filter = function(client)
+      return client.name == "null-ls"
+    end,
+    timeout_ms = 5000,
+  })
+end
+
+-- Create the BlackFMT command
+vim.api.nvim_create_user_command("BFMT", format_with_black, {})
+
 local telescope = require("telescope")
 local actions = require("telescope.actions")
 

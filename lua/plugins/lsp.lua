@@ -10,13 +10,14 @@ return {
 
   {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      "nvimtools/none-ls.nvim",
+    },
     opts = {
       diagnostics = {
         virtual_text = {
-          -- Truncate diagnostic messages to the first line.
           format = function(diagnostic)
             local new_line_location = diagnostic.message:find("\n")
-
             if new_line_location ~= nil then
               return diagnostic.message:sub(1, new_line_location)
             else
@@ -25,68 +26,123 @@ return {
           end,
         },
       },
-      -- format = {
-      --   -- `arc lint` can take a bit to run.
-      --   timeout_ms = 2500,
-      -- },
-      --
       servers = {
-        pylsp = {
-          cmd = { "pylsp" },
+        pyright = {
+          cmd = { "pyright-langserver", "--stdio" },
           filetypes = { "python" },
           root_dir = function(filename)
-            return vim.fn.getcwd()
+            local util = require("lspconfig.util")
+            return util.find_git_ancestor(filename) or util.path.dirname(filename)
           end,
           settings = {
-            pylsp = {
-              plugins = {
-                jedi_completion = {
-                  enabled = true,
-                },
-                jedi_definition = {
-                  enabled = true,
-                },
-                jedi_hover = {
-                  enabled = true,
-                },
-                jedi_references = {
-                  enabled = true,
-                },
-                jedi_signature_help = {
-                  enabled = true,
-                },
-                rope_completion = {
-                  enabled = false,
-                },
-                pyls_black = {
-                  enabled = false,
-                },
-                pyls_isort = {
-                  enabled = false,
-                },
-                autopep8 = {
-                  enabled = false,
-                },
-                yapf = {
-                  enabled = false,
-                },
-                pycodestyle = {
-                  enabled = false,
-                },
-                pydocstyle = {
-                  enabled = false,
-                },
-                pyflakes = {
-                  enabled = false,
-                },
-                pylint = {
-                  enabled = false,
-                },
+            python = {
+              -- pythonPath = vim.fn.expand("~/conda-envs/xlformers_multimodal_conda_dev/conda/bin/python"),
+              pythonPath = vim.fn.expand("~/conda-envs/xlfcde/conda/bin/python"),
+
+              analysis = {
+                autoSearchPaths = true,
+                diagnosticMode = "workspace",
+                useLibraryCodeForTypes = true,
+                typeCheckingMode = "off",
+                stubPath = vim.fn.stdpath("data") .. "/lazy/python-type-stubs",
               },
             },
           },
+          single_file_support = true,
+          on_attach = function(client, bufnr)
+            -- Enable completion triggered by <c-x><c-o>
+            vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+
+            -- Mappings.
+            local bufopts = { noremap = true, silent = true, buffer = bufnr }
+            vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
+            vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+            vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+            vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+            vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
+
+            -- Add shortcut for formatting with Black
+            vim.keymap.set("n", "<leader>bf", function()
+              vim.lsp.buf.format({
+                filter = function(client)
+                  return client.name == "null-ls"
+                end,
+                timeout_ms = 5000,
+              })
+            end, { noremap = true, silent = true, buffer = bufnr, desc = "Format with Black" })
+          end,
         },
       },
     },
+    config = function(_, opts)
+      local lspconfig = require("lspconfig")
+
+      -- Explicitly disable pylsp
+      lspconfig.pylsp.setup({
+        autostart = false,
+        filetypes = {},
+      })
+
+      -- Setup servers
+      for server, server_opts in pairs(opts.servers) do
+        lspconfig[server].setup(server_opts)
+      end
+
+      -- Set up null-ls for Black formatting
+      local null_ls = require("null-ls")
+      null_ls.setup({
+        sources = {
+          null_ls.builtins.formatting.black.with({
+            runtime_condition = function(params)
+              if params.root then
+                local has_pyproject = vim.fn.filereadable(params.root .. "/pyproject.toml") == 1
+                return not has_pyproject
+              end
+              return true
+            end,
+            command = vim.fn.expand("~/conda-envs/xlformers_multimodal_conda_dev/conda/bin/black"),
+            -- command = vim.fn.expand("~/conda-envs/xlfcde/conda/bin/black"),
+          }),
+        },
+        debug = true,
+      })
+
+      -- Function for Black formatting
+      _G.format_with_black = function()
+        vim.lsp.buf.format({
+          filter = function(client)
+            return client.name == "null-ls"
+          end,
+          timeout_ms = 5000,
+        })
+      end
+
+      -- Function to check active LSP servers and their Python paths
+      local function check_lsp_python_path()
+        local clients = vim.lsp.get_active_clients()
+        for _, client in ipairs(clients) do
+          if client.name == "pyright" then
+            local python_path = client.config.settings.python.pythonPath
+            print(string.format("Pyright is using Python at: %s", python_path))
+
+            -- Test go-to-definition
+            local result, err =
+              client.request_sync("textDocument/definition", vim.lsp.util.make_position_params(), 1000, 0)
+            if err then
+              print("Error testing go-to-definition:", err)
+            elseif result and result.result then
+              print("Go-to-definition seems to be working")
+            else
+              print("Go-to-definition test returned no results")
+            end
+          elseif client.name == "null-ls" then
+            print("Black formatter is active")
+          end
+        end
+      end
+
+      -- Create user commands
+      vim.api.nvim_create_user_command("CheckLSP", check_lsp_python_path, {})
+    end,
   },
 }

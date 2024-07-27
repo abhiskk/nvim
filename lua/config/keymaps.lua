@@ -32,9 +32,6 @@ map("n", "<leader>gp", ":Gitsigns preview_hunk<cr>", { noremap = true, silent = 
 map("n", "<leader>c", "<cmd>Gitsigns next_hunk<cr>", { noremap = true, silent = true })
 map("n", "<leader>C", "<cmd>Gitsigns prev_hunk<cr>", { noremap = true, silent = true })
 
--- python lsp server jumpt to definition
--- map("n", "<C-d>", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
-
 -- avoid mistyping write/quit
 cmd("command WQ wq")
 cmd("command Wq wq")
@@ -57,4 +54,21 @@ map(
   "<leader>fp",
   "<cmd>let @+ = expand('%:p')<CR>",
   { noremap = true, silent = true, desc = "Copy full path to clipboard" }
+)
+
+-- LSP related keymaps
+map("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true, desc = "Go to declaration" })
+map("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true, desc = "Go to definition" })
+map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { noremap = true, silent = true, desc = "Show hover information" })
+map(
+  "n",
+  "gi",
+  "<cmd>lua vim.lsp.buf.implementation()<CR>",
+  { noremap = true, silent = true, desc = "Go to implementation" }
+)
+map(
+  "n",
+  "<C-k>",
+  "<cmd>lua vim.lsp.buf.signature_help()<CR>",
+  { noremap = true, silent = true, desc = "Show signature help" }
 )
