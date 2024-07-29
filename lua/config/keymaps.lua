@@ -9,10 +9,10 @@ local cmd = vim.cmd
 map("n", "<C-p>", "<C-b>", { noremap = true })
 
 -- map arrow keys to pane shifts.
-map("n", "<Up>", "<C-w><C-k>", { noremap = true })
-map("n", "<Down>", "<C-w><C-j>", { noremap = true })
-map("n", "<Left>", "<C-w><C-h>", { noremap = true })
-map("n", "<Right>", "<C-w><C-l>", { noremap = true })
+-- map("n", "<Up>", "<C-w><C-k>", { noremap = true })
+-- map("n", "<Down>", "<C-w><C-j>", { noremap = true })
+-- map("n", "<Left>", "<C-w><C-h>", { noremap = true })
+-- map("n", "<Right>", "<C-w><C-l>", { noremap = true })
 
 -- Telescope file finder shortcut
 map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { noremap = true, silent = true })
