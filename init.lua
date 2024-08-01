@@ -164,6 +164,27 @@ telescope.setup({
   },
 })
 
+-- require("meta").setup()
+--
+-- require("meta.lsp")
+-- local servers = { "rust-analyzer@meta", "pyls@meta", "pyre@meta", "thriftlsp@meta", "cppls@meta" }
+-- for _, lsp in ipairs(servers) do
+--   require("lspconfig")[lsp].setup({
+--     on_attach = on_attach,
+--   })
+-- end
+--
+-- local meta = require("meta")
+-- local null_ls = require("null-ls")
+-- null_ls.setup({
+--   on_attach = on_attach,
+--   sources = {
+--     meta.null_ls.diagnostics.arclint,
+--     meta.null_ls.formatting.arclint,
+--     meta.null_ls.diagnostics.rust_clippy,
+--   },
+-- })
+
 -- Custom command for Telescope live_grep with configurable folder name
 vim.api.nvim_create_user_command("Fg", function(opts)
   local folder = opts.args
@@ -172,5 +193,30 @@ vim.api.nvim_create_user_command("Fg", function(opts)
   })
 end, { nargs = 1 })
 
+local llm_terminal_buf = nil
+
+vim.api.nvim_create_user_command("RLC", function()
+  if llm_terminal_buf and vim.api.nvim_buf_is_valid(llm_terminal_buf) then
+    -- If the buffer exists, display it in a vertical split
+    vim.cmd("vsplit | buffer " .. llm_terminal_buf)
+  else
+    -- Create a new terminal buffer
+    vim.cmd("vsplit | terminal bash ~/scripts/llm.sh")
+    llm_terminal_buf = vim.api.nvim_get_current_buf()
+  end
+  vim.cmd("startinsert")
+end, {})
+
+-- Command to reattach to the LLM terminal
+vim.api.nvim_create_user_command("RLCAttach", function()
+  if llm_terminal_buf and vim.api.nvim_buf_is_valid(llm_terminal_buf) then
+    vim.cmd("vsplit | buffer " .. llm_terminal_buf)
+    vim.cmd("startinsert")
+  else
+    print("No active LLM terminal. Use :RLC to start a new one.")
+  end
+end, {})
+
+-- Keybinding to call the command
 -- Set clipboard to use OSC52
 vim.opt.clipboard = "unnamedplus"
