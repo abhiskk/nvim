@@ -50,14 +50,6 @@ return {
           },
           single_file_support = true,
           on_attach = function(client, bufnr)
-            -- Disable specific capabilities
-            client.server_capabilities.completionProvider.resolveProvider = false
-            client.server_capabilities.signatureHelpProvider = nil
-            client.server_capabilities.hoverProvider = nil
-
-            -- Disable snippet support
-            client.server_capabilities.completionProvider.snippetSupport = false
-
             -- Enable completion triggered by <c-x><c-o>
             vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
@@ -88,22 +80,6 @@ return {
       },
     },
     config = function(_, opts)
-      -- Disable ghost text
-      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = "rounded",
-        silent = true,
-        focusable = false,
-      })
-
-      -- Disable signature help floating window
-      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        silent = true,
-        focusable = false,
-      })
-
-      -- Disable inlay hints
-      vim.lsp.handlers["textDocument/inlayHint"] = nil
-
       local lspconfig = require("lspconfig")
 
       -- Setup servers
