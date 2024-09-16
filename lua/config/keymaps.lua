@@ -32,9 +32,14 @@ map("n", "<leader>gp", ":Gitsigns preview_hunk<cr>", { noremap = true, silent = 
 map("n", "<leader>c", "<cmd>Gitsigns next_hunk<cr>", { noremap = true, silent = true })
 map("n", "<leader>C", "<cmd>Gitsigns prev_hunk<cr>", { noremap = true, silent = true })
 
+-- jump to neo-tree
+map("n", "<leader>e", "<cmd>Neotree focus<cr>", { noremap = true, silent = true })
+
 -- avoid mistyping write/quit
 cmd("command WQ wq")
 cmd("command Wq wq")
+cmd("command WA wa")
+cmd("command Wa wa")
 cmd("command W w")
 cmd("command Q q")
 
@@ -71,4 +76,17 @@ map(
   "<C-k>",
   "<cmd>lua vim.lsp.buf.signature_help()<CR>",
   { noremap = true, silent = true, desc = "Show signature help" }
+)
+map("n", "<leader>vd", ":vertical diffsplit ", { noremap = true, silent = false, desc = "Vertical diffsplit" })
+-- map(
+--   "n",
+--   "<leader>gt",
+--   '<cmd>0Gllog --pretty=format:"%h %ad %s" --date=short<CR>',
+--   { noremap = true, silent = true, desc = "Git log with date" }
+-- )
+map(
+  "n",
+  "<leader>gt",
+  '<cmd>0Gllog --pretty=format:"%h %ad %an: %s" --date=short<CR>',
+  { noremap = true, silent = true, desc = "Git log with date and author" }
 )

@@ -1,6 +1,8 @@
 -- bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")
 
+vim.cmd("filetype plugin on")
+vim.cmd("filetype indent on")
 vim.opt.wrap = true
 vim.opt.list = false
 vim.opt.linespace = 10
@@ -29,9 +31,13 @@ api.nvim_set_hl(0, "Search", { bg = "#A0522D" })
 
 -- Set Gruvbox colorscheme
 vim.o.termguicolors = true
+api.nvim_command([[colorscheme rose-pine]])
 -- api.nvim_command([[set background=light]])
+-- api.nvim_command([[colorscheme kanagawa]])
+-- api.nvim_command([[colorscheme gruvbox]])
 -- api.nvim_command([[colorscheme catppuccin]])
-api.nvim_command([[colorscheme gruvbox]])
+-- api.nvim_command([[colorscheme tokyonight]])
+-- api.nvim_command([[colorscheme carbonfox]])
 
 -- Set NeoTree background
 -- api.nvim_set_hl(0, "NeoTreeNormal", { bg = "#000000" })
@@ -59,48 +65,6 @@ end, {})
 vim.api.nvim_create_user_command("Lintoff", function()
   _G.toggle_pyright_diagnostics(false)
 end, {})
-
---
--- vim.api.nvim_create_user_command("Linton", function()
---   require("lspconfig").pylsp.setup({
---     settings = {
---       pylsp = {
---         plugins = {
---           pyflakes = { enabled = true },
---           pycodestyle = { enabled = false },
---           mccabe = { enabled = true },
---           rope_completion = { enabled = false },
---           pyls_black = { enabled = false },
---           pyls_sort = { enabled = false },
---           autopep8 = { enabled = false },
---           yapf = { enabled = false },
---           pylint = { enabled = false },
---         },
---       },
---     },
---   })
--- end, {})
---
--- -- Lint off
--- vim.api.nvim_create_user_command("Lintoff", function()
---   require("lspconfig").pylsp.setup({
---     settings = {
---       pylsp = {
---         plugins = {
---           pyflakes = { enabled = false },
---           pycodestyle = { enabled = false },
---           mccabe = { enabled = false },
---           rope_completion = { enabled = false },
---           pyls_black = { enabled = false },
---           pyls_sort = { enabled = false },
---           autopep8 = { enabled = false },
---           yapf = { enabled = false },
---           pylint = { enabled = false },
---         },
---       },
---     },
---   })
--- end, {})
 
 -- Function for Black formatting
 local function format_with_black()
@@ -161,29 +125,21 @@ telescope.setup({
         return item
       end,
     },
+    live_grep = {
+      -- Disable devicons for live_grep
+      entry_maker = function(entry)
+        local maker = require("telescope.make_entry").gen_from_vimgrep()
+        local item = maker(entry)
+        item.display = function(entry_item)
+          local display =
+            string.format("%s:%s:%s: %s", entry_item.filename, entry_item.lnum, entry_item.col, entry_item.text)
+          return display
+        end
+        return item
+      end,
+    },
   },
 })
-
--- require("meta").setup()
---
--- require("meta.lsp")
--- local servers = { "rust-analyzer@meta", "pyls@meta", "pyre@meta", "thriftlsp@meta", "cppls@meta" }
--- for _, lsp in ipairs(servers) do
---   require("lspconfig")[lsp].setup({
---     on_attach = on_attach,
---   })
--- end
---
--- local meta = require("meta")
--- local null_ls = require("null-ls")
--- null_ls.setup({
---   on_attach = on_attach,
---   sources = {
---     meta.null_ls.diagnostics.arclint,
---     meta.null_ls.formatting.arclint,
---     meta.null_ls.diagnostics.rust_clippy,
---   },
--- })
 
 -- Custom command for Telescope live_grep with configurable folder name
 vim.api.nvim_create_user_command("Fg", function(opts)
@@ -214,6 +170,28 @@ vim.api.nvim_create_user_command("RLCAttach", function()
     vim.cmd("startinsert")
   else
     print("No active LLM terminal. Use :RLC to start a new one.")
+  end
+end, {})
+
+vim.api.nvim_create_user_command("LLC", function()
+  if llm_terminal_buf and vim.api.nvim_buf_is_valid(llm_terminal_buf) then
+    -- If the buffer exists, display it in a vertical split
+    vim.cmd("vsplit | buffer " .. llm_terminal_buf)
+  else
+    -- Create a new terminal buffer
+    vim.cmd("vsplit | terminal bash ~/scripts/llm_mm.sh")
+    llm_terminal_buf = vim.api.nvim_get_current_buf()
+  end
+  vim.cmd("startinsert")
+end, {})
+
+-- Command to reattach to the LLM terminal
+vim.api.nvim_create_user_command("LLCAttach", function()
+  if llm_terminal_buf and vim.api.nvim_buf_is_valid(llm_terminal_buf) then
+    vim.cmd("vsplit | buffer " .. llm_terminal_buf)
+    vim.cmd("startinsert")
+  else
+    print("No active LLM terminal. Use :LLC to start a new one.")
   end
 end, {})
 

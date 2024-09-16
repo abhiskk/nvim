@@ -27,4 +27,44 @@ return {
   {
     "morhetz/gruvbox",
   },
+  {
+    "rose-pine/neovim",
+    name = "rose-pine",
+    priority = 1000,
+    config = function()
+      require("rose-pine").setup({
+        variant = "moon", -- 'auto', 'main', 'moon', or 'dawn'
+        dark_variant = "moon",
+        bold_vert_split = false,
+        dim_nc_background = false,
+        disable_background = false,
+        disable_float_background = false,
+        disable_italics = false,
+        -- ... other options
+      })
+      vim.cmd.colorscheme("rose-pine")
+    end,
+  },
+  -- {
+  --   "EdenEast/nightfox.nvim",
+  --   priority = 1000,
+  --   config = function()
+  --     require("nightfox").setup({
+  --       -- Optionally, you can add configuration options here
+  --       -- For example:
+  --       -- options = {
+  --       --   styles = {
+  --       --     comments = "italic",
+  --       --     keywords = "bold",
+  --       --     types = "italic,bold",
+  --       --   }
+  --       -- },
+  --     })
+  --     vim.cmd("colorscheme carbonxfox")
+  --   end,
+  -- },
+  {
+    "vim-scripts/tango.vim",
+    name = "vim-tango",
+  },
 }
