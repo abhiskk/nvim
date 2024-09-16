@@ -9,6 +9,11 @@ return {
       local luasnip = require("luasnip")
       local cmp = require("cmp")
 
+      -- Disable ghost text
+      opts.experimental = {
+        ghost_text = false,
+      }
+
       -- Require at least one tab before suggesting a completion.
       opts.completion = {
         completeopt = "menu,menuone,noselect",
