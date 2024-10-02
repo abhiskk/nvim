@@ -7,6 +7,9 @@ vim.opt.wrap = true
 vim.opt.list = false
 vim.opt.linespace = 10
 vim.opt.foldmethod = "manual"
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
 
 -- Disable LSP semantic highlighting
 vim.lsp.handlers["textDocument/documentHighlight"] = function() end
@@ -31,7 +34,11 @@ api.nvim_set_hl(0, "Search", { bg = "#A0522D" })
 
 -- Set Gruvbox colorscheme
 vim.o.termguicolors = true
+
+-- api.nvim_command([[colorscheme monokai-pro]])
 api.nvim_command([[colorscheme rose-pine]])
+-- api.nvim_command([[colorscheme gruvbox]])
+
 -- api.nvim_command([[set background=light]])
 -- api.nvim_command([[colorscheme kanagawa]])
 -- api.nvim_command([[colorscheme gruvbox]])
@@ -198,3 +205,16 @@ end, {})
 -- Keybinding to call the command
 -- Set clipboard to use OSC52
 vim.opt.clipboard = "unnamedplus"
+
+-- vim.g.clipboard = {
+--   name = 'OSC 52',
+--   copy = {
+--     ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
+--     ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+--   },
+--   paste = {
+--     ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
+--     ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+--   },
+-- }
+--

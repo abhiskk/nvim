@@ -67,4 +67,25 @@ return {
     "vim-scripts/tango.vim",
     name = "vim-tango",
   },
+  {
+    "loctvl842/monokai-pro.nvim",
+    priority = 1000,
+    config = function()
+      require("monokai-pro").setup({
+        transparent_background = false,
+        terminal_colors = true,
+        devicons = true,
+        filter = "pro", -- classic | octagon | pro | machine | ristretto | spectrum
+        -- Override default colors
+        colors = {
+          -- Adjust colors here if needed
+        },
+        -- Override highlight groups
+        highlight_groups = {
+          -- Adjust highlight groups here if needed
+        },
+      })
+      vim.cmd.colorscheme("monokai-pro")
+    end,
+  },
 }
