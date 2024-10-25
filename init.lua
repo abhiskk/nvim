@@ -38,6 +38,7 @@ vim.o.termguicolors = true
 -- api.nvim_command([[colorscheme monokai-pro]])
 api.nvim_command([[colorscheme rose-pine]])
 -- api.nvim_command([[colorscheme gruvbox]])
+-- api.nvim_command([[colorscheme cyberdream]])
 
 -- api.nvim_command([[set background=light]])
 -- api.nvim_command([[colorscheme kanagawa]])

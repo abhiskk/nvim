@@ -28,11 +28,15 @@ return {
     "morhetz/gruvbox",
   },
   {
+    "scottmckendry/cyberdream.nvim",
+  },
+  {
     "rose-pine/neovim",
     name = "rose-pine",
     priority = 1000,
     config = function()
       require("rose-pine").setup({
+        -- variant = "moon", -- 'auto', 'main', 'moon', or 'dawn'
         variant = "moon", -- 'auto', 'main', 'moon', or 'dawn'
         dark_variant = "moon",
         bold_vert_split = false,
