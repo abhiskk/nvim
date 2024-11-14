@@ -15,9 +15,9 @@ map("n", "<Left>", "<C-w><C-h>", { noremap = true })
 map("n", "<Right>", "<C-w><C-l>", { noremap = true })
 
 -- Telescope file finder shortcut
-map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { noremap = true, silent = true })
+-- map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { noremap = true, silent = true })
 map("n", "<leader>lg", "<cmd>Telescope live_grep<cr>", { noremap = true, silent = true })
-map("n", "<leader>bb", "<cmd>Telescope buffers<cr>", { noremap = true, silent = true })
+-- map("n", "<leader>bb", "<cmd>Telescope buffers<cr>", { noremap = true, silent = true })
 
 -- Neotree toggle shortcut
 map("n", "<leader>t", "<cmd>Neotree toggle<cr>", { noremap = true, silent = true })
@@ -89,4 +89,30 @@ map(
   "<leader>gt",
   '<cmd>0Gllog --pretty=format:"%h %ad %an: %s" --date=short<CR>',
   { noremap = true, silent = true, desc = "Git log with date and author" }
+)
+map("n", "<leader>ff", "<cmd>lua require('fzf-lua').files()<CR>", { noremap = true, silent = true, desc = "FZF Files" })
+map(
+  "n",
+  "<leader>fg",
+  "<cmd>lua require('fzf-lua').live_grep()<CR>",
+  { noremap = true, silent = true, desc = "FZF Live Grep" }
+)
+map(
+  "n",
+  "<leader>bb",
+  "<cmd>lua require('fzf-lua').buffers()<CR>",
+  { noremap = true, silent = true, desc = "FZF Buffers" }
+)
+map(
+  "n",
+  "<leader>fh",
+  "<cmd>lua require('fzf-lua').help_tags()<CR>",
+  { noremap = true, silent = true, desc = "FZF Help Tags" }
+)
+map("n", "<leader>fm", "<cmd>lua require('fzf-lua').marks()<CR>", { noremap = true, silent = true, desc = "FZF Marks" })
+map(
+  "n",
+  "<leader>fc",
+  "<cmd>lua require('fzf-lua').git_commits()<CR>",
+  { noremap = true, silent = true, desc = "FZF Git Commits" }
 )

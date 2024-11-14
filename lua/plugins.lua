@@ -243,4 +243,30 @@ return {
   --   dir = "/usr/share/fb-editor-support/nvim",
   --   name = "meta.nvim",
   -- },
+  {
+    "ibhagwan/fzf-lua",
+    config = function()
+      -- calling `setup` is optional for customization
+      require("fzf-lua").setup({})
+    end,
+  },
+  {
+    "ibhagwan/fzf-lua",
+    config = function()
+      local actions = require("fzf-lua.actions")
+      require("fzf-lua").setup({
+        -- Disable icons
+        -- Disable file icons
+        files = {
+          file_icons = false,
+          git_icons = false,
+        },
+        -- Disable icons in other commands
+        buffers = { file_icons = false, git_icons = false },
+        oldfiles = { file_icons = false, git_icons = false },
+        git = { file_icons = false, git_icons = false },
+        grep = { file_icons = false, git_icons = false },
+      })
+    end,
+  },
 }
