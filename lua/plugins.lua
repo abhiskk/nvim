@@ -246,13 +246,6 @@ return {
   {
     "ibhagwan/fzf-lua",
     config = function()
-      -- calling `setup` is optional for customization
-      require("fzf-lua").setup({})
-    end,
-  },
-  {
-    "ibhagwan/fzf-lua",
-    config = function()
       local actions = require("fzf-lua.actions")
       require("fzf-lua").setup({
         -- Disable icons
@@ -266,6 +259,11 @@ return {
         oldfiles = { file_icons = false, git_icons = false },
         git = { file_icons = false, git_icons = false },
         grep = { file_icons = false, git_icons = false },
+        keymap = {
+          fzf = {
+            ["ctrl-q"] = "select-all+accept",
+          },
+        },
       })
     end,
   },

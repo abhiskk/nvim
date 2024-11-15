@@ -16,7 +16,7 @@ map("n", "<Right>", "<C-w><C-l>", { noremap = true })
 
 -- Telescope file finder shortcut
 -- map("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { noremap = true, silent = true })
-map("n", "<leader>lg", "<cmd>Telescope live_grep<cr>", { noremap = true, silent = true })
+-- map("n", "<leader>lg", "<cmd>Telescope live_grep<cr>", { noremap = true, silent = true })
 -- map("n", "<leader>bb", "<cmd>Telescope buffers<cr>", { noremap = true, silent = true })
 
 -- Neotree toggle shortcut
@@ -93,7 +93,7 @@ map(
 map("n", "<leader>ff", "<cmd>lua require('fzf-lua').files()<CR>", { noremap = true, silent = true, desc = "FZF Files" })
 map(
   "n",
-  "<leader>fg",
+  "<leader>lg",
   "<cmd>lua require('fzf-lua').live_grep()<CR>",
   { noremap = true, silent = true, desc = "FZF Live Grep" }
 )
