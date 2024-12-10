@@ -219,3 +219,29 @@ vim.opt.clipboard = "unnamedplus"
 --   },
 -- }
 --
+
+function CopyGitHubURL()
+  local file_path = vim.fn.expand("%:p")
+  local git_root = vim.fn.systemlist("git rev-parse --show-toplevel")[1]
+  local relative_path = file_path:sub(#git_root + 2)
+  local branch = vim.fn.systemlist("git rev-parse --abbrev-ref HEAD")[1]
+  local remote_url = vim.fn.systemlist("git config --get remote.origin.url")[1]
+
+  -- Extract username and repo from remote URL
+  local username, repo = remote_url:match("github%.com[:/](.+)/(.+)%.git$")
+
+  if username and repo then
+    local github_url = string.format("https://github.com/%s/%s/blob/%s/%s", username, repo, branch, relative_path)
+
+    -- Copy to clipboard
+    vim.fn.setreg("+", github_url)
+    vim.fn.setreg('"', github_url)
+
+    print("GitHub URL copied to clipboard!")
+  else
+    print("Unable to determine GitHub URL")
+  end
+end
+
+-- Map the function to a key combination, e.g., <leader>gy
+vim.api.nvim_set_keymap("n", "<leader>gy", ":lua CopyGitHubURL()<CR>", { noremap = true, silent = true })
