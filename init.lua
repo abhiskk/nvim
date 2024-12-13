@@ -245,3 +245,5 @@ end
 
 -- Map the function to a key combination, e.g., <leader>gy
 vim.api.nvim_set_keymap("n", "<leader>gy", ":lua CopyGitHubURL()<CR>", { noremap = true, silent = true })
+
+vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"

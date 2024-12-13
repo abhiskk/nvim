@@ -71,6 +71,10 @@ return {
               })
             end, { noremap = true, silent = true, buffer = bufnr, desc = "Format with Black" })
 
+            if client.server_capabilities.documentSymbolProvider then
+              require("nvim-navic").attach(client, bufnr)
+            end
+
             -- Apply current diagnostics state
             if vim.g.pyright_diagnostics_active == false then
               vim.diagnostic.disable(bufnr)
@@ -153,6 +157,22 @@ return {
           print("Pyright diagnostics disabled")
         end
       end
+
+      require("lualine").setup({
+        sections = {
+          lualine_c = {
+            {
+              function()
+                return require("nvim-navic").get_location()
+              end,
+              cond = function()
+                return package.loaded["nvim-navic"] and require("nvim-navic").is_available()
+              end,
+            },
+            -- Keep your existing lualine_c components here
+          },
+        },
+      })
     end,
   },
 }
